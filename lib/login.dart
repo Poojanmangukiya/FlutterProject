@@ -1,11 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-final _username = TextEditingController();
-final _password = TextEditingController();
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -37,7 +30,6 @@ class _LogInPageState extends State<LogInPage> {
             ),
             child: Column(children: [
               TextField(
-                controller: _username,
                 decoration: InputDecoration(
                     fillColor: Color.fromARGB(141, 232, 229, 207),
                     filled: true,
@@ -50,7 +42,7 @@ class _LogInPageState extends State<LogInPage> {
                 height: size.height * 0.01,
               ),
               TextField(
-                controller: _password,
+                // controller: _password,
                 decoration: InputDecoration(
                     fillColor: Color.fromARGB(141, 232, 229, 207),
                     filled: true,
