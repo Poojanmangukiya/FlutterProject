@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:juiesapk/home.dart';
 
-import 'controller/signup_controller.dart';
+import 'controller/auth_store.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -10,11 +11,16 @@ class SignupPage extends StatefulWidget {
   State<SignupPage> createState() => _SignupPageState();
 }
 
+AuthStore authStore = AuthStore();
+
 class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignupController());
-    final _formKey = GlobalKey<FormState>();
+    final email = TextEditingController();
+    final password = TextEditingController();
+    final fullname = TextEditingController();
+    final phoneNo = TextEditingController();
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -32,77 +38,73 @@ class _SignupPageState extends State<SignupPage> {
 
               //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
             ),
-            child: Form(
-              key: _formKey,
-              child: Column(children: [
-                TextField(
-                  controller: controller.fullname,
-                  decoration: InputDecoration(
-                      fillColor: Color.fromARGB(141, 232, 229, 207),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                      hintText: 'Enter Username '),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                TextField(
-                  controller: controller.email,
-                  decoration: InputDecoration(
-                      fillColor: Color.fromARGB(141, 232, 229, 207),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                      hintText: 'Enter Email '),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                TextField(
-                  controller: controller.phoneNo,
-                  decoration: InputDecoration(
-                      fillColor: Color.fromARGB(141, 232, 229, 207),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                      hintText: 'Enter Phonenumber '),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                TextField(
-                  controller: controller.password,
-                  decoration: InputDecoration(
-                      fillColor: Color.fromARGB(141, 232, 229, 207),
-                      filled: true,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                      hintText: 'Enter Password '),
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                ElevatedButton(
+            child: Column(children: [
+              TextField(
+                controller: fullname,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(141, 232, 229, 207),
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    hintText: 'Enter Username '),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              TextField(
+                controller: email,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(141, 232, 229, 207),
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    hintText: 'Enter Email '),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              TextField(
+                controller: phoneNo,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(141, 232, 229, 207),
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    hintText: 'Enter Phonenumber '),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              TextField(
+                controller: password,
+                decoration: InputDecoration(
+                    fillColor: Color.fromARGB(141, 232, 229, 207),
+                    filled: true,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none),
+                    hintText: 'Enter Password '),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Observer(
+                builder: (context) => ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Color.fromARGB(255, 0, 0, 0)),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      SignupController.instance.registerUser(
-                          controller.email.text.trim(),
-                          controller.password.text.trim());
-                    }
+                    authStore.signUpWithEmailAndPassword(
+                        email.text, password.text);
                   },
                   child: Text('Sign up'),
                 ),
-              ]),
-            ),
+              ),
+            ]),
           ),
         ),
       ),
