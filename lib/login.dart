@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'controller/auth_store.dart';
+import 'home.dart';
+
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
 
@@ -7,9 +10,21 @@ class LogInPage extends StatefulWidget {
   State<LogInPage> createState() => _LogInPageState();
 }
 
+AuthStore authStore = AuthStore();
+
 class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
+    void _onSignInSuccess() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePageBar()),
+      );
+    }
+
+    final email = TextEditingController();
+    final password = TextEditingController();
+
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -30,6 +45,7 @@ class _LogInPageState extends State<LogInPage> {
             ),
             child: Column(children: [
               TextField(
+                controller: email,
                 decoration: InputDecoration(
                     fillColor: Color.fromARGB(141, 232, 229, 207),
                     filled: true,
@@ -42,7 +58,7 @@ class _LogInPageState extends State<LogInPage> {
                 height: size.height * 0.01,
               ),
               TextField(
-                // controller: _password,
+                controller: password,
                 decoration: InputDecoration(
                     fillColor: Color.fromARGB(141, 232, 229, 207),
                     filled: true,
@@ -57,9 +73,24 @@ class _LogInPageState extends State<LogInPage> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromARGB(255, 0, 0, 0)),
+                      Color.fromARGB(255, 90, 63, 54)),
                 ),
-                onPressed: () {},
+                onPressed: () async {
+                  bool success = await authStore.signInWithEmailAndPassword(
+                    email.text,
+                    password.text,
+                    _onSignInSuccess,
+                  );
+                  if (!success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Failed to sign up.'),
+                      ),
+                    );
+                  }
+
+                  //authStore.signInWithEmailAndPassword(email.text, password.text);
+                },
                 child: Text('Login'),
               ),
             ]),

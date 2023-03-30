@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:juiesapk/authantication/authentication_repo.dart';
 import 'package:juiesapk/firebase_options.dart';
 import 'package:juiesapk/home.dart';
 import 'package:juiesapk/welcome.dart';

@@ -25,11 +25,11 @@ class _WelComePageState extends State<WelComePage> {
             height: size.height * 0.28,
             width: size.width * 0.8,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(161, 233, 98, 20),
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(192, 230, 225, 213)
 
-              //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
-            ),
+                //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
+                ),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
@@ -38,7 +38,7 @@ class _WelComePageState extends State<WelComePage> {
                 style: TextStyle(
                   fontSize: 35,
                   fontWeight: FontWeight.w600,
-                  color: Color.fromARGB(225, 232, 229, 207),
+                  color: Color.fromARGB(223, 14, 14, 13),
                 ),
               ),
               Row(
@@ -47,7 +47,7 @@ class _WelComePageState extends State<WelComePage> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 0, 0, 0)),
+                          Color.fromARGB(255, 90, 63, 54)),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -61,7 +61,7 @@ class _WelComePageState extends State<WelComePage> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 0, 0, 0)),
+                          Color.fromARGB(255, 90, 63, 54)),
                     ),
                     onPressed: () {
                       Navigator.push(
