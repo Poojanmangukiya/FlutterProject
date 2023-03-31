@@ -1,15 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:juiesapk/firebase_options.dart';
-import 'package:juiesapk/home.dart';
-import 'package:juiesapk/welcome.dart';
-import 'package:get/get.dart';
 
-import 'login.dart';
+import 'package:juiesapk/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // .then((value) => Get.put(AuthenticationRepo()));
   runApp(const MyApp());
 }
@@ -21,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: WelComePage(),
+      home: SplashScreen(),
     );
   }
 }
