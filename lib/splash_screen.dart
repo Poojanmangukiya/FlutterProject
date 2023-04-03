@@ -14,12 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Future.delayed(const Duration(seconds: 5), () {
-    //  WidgetsBinding.instance!.addPostFrameCallback((_) => checkUserLogin());
-    // });
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) => checkUserLogin());
+    WidgetsBinding.instance.addPostFrameCallback((_) => checkUserLogin());
   }
 
   void checkUserLogin() async {
@@ -27,15 +22,19 @@ class _SplashScreenState extends State<SplashScreen> {
     final User? user = auth.currentUser;
 
     if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePageBar()),
-      );
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePageBar()),
+        );
+      });
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const WelComePage()),
-      );
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const WelComePage()),
+        );
+      });
     }
   }
 
@@ -48,8 +47,39 @@ class _SplashScreenState extends State<SplashScreen> {
         width: size.width,
         color: Colors.orange,
         child: Container(
-          child: Image.asset(
-              'assets/images/Screenshot_2023-03-31_153647-transformed.png'),
+          child: Column(
+            children: [
+              Container(
+                height: size.height * 0.5,
+                width: size.width * 0.7,
+                child: Image.asset(
+                    'assets/images/Screenshot_2023-03-31_153647-transformed.png'),
+              ),
+              Text(
+                'Welcome To The',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 27, 26, 26),
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.edit),
+                  Text(
+                    'Note App',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 62, 44, 38),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
