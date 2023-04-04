@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:juiesapk/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,6 +11,7 @@ abstract class _AuthStore with Store {
 
   @observable
   User? user;
+  String? docRef;
 
   @action
   Future<bool> signUpWithEmailAndPassword(
@@ -21,6 +21,19 @@ abstract class _AuthStore with Store {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       user = userCredential.user!;
+
+      final CollectionReference usersRef =
+          FirebaseFirestore.instance.collection('users');
+
+      // Generate a new document ID for the user
+      final docRef = usersRef.doc();
+
+      // Create a new user document with the provided data
+      await docRef.set({
+        'email': email,
+      });
+
+      print('User created with ID: ${docRef.id}');
 
       onSignUpSuccess(); // Call the callback function
 

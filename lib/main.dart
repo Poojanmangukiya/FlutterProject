@@ -4,8 +4,6 @@ import 'package:juiesapk/firebase_options.dart';
 
 import 'package:juiesapk/splash_screen.dart';
 
-import 'noteadd.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

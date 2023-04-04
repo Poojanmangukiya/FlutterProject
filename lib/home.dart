@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+
 import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/noteadd.dart';
 import 'package:juiesapk/splash_screen.dart';
@@ -19,8 +19,10 @@ class _HomePageBarState extends State<HomePageBar> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final fireStore = FirebaseFirestore.instance.collection('user').snapshots();
-    final ref = FirebaseFirestore.instance.collection('user');
+    final fireStore = FirebaseFirestore.instance
+        .collection('Wlsjsc5uteKleKyPqW6D')
+        .snapshots();
+    final ref = FirebaseFirestore.instance.collection('Wlsjsc5uteKleKyPqW6D');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.brown,
@@ -82,10 +84,11 @@ class _HomePageBarState extends State<HomePageBar> {
                     child: GridView.builder(
                       itemCount: snapshot.data!.docs.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: 0.8),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 0.8,
+                      ),
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           decoration: BoxDecoration(
@@ -97,47 +100,59 @@ class _HomePageBarState extends State<HomePageBar> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Flexible(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
                                         " ${snapshot.data!.docs[index]['title'].toString()}",
                                         style: TextStyle(
-                                            fontSize: 25,
+                                            fontSize: 20,
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Flexible(
-                                        child: Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                ref
-                                                    .doc(snapshot
-                                                        .data!.docs[index]['id']
-                                                        .toString())
-                                                    .delete();
-                                              },
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: Color.fromARGB(
-                                                    255, 34, 92, 20),
-                                              ),
-                                            ),
-                                          ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            ref
+                                                .doc(snapshot
+                                                    .data!.docs[index]['id']
+                                                    .toString())
+                                                .delete();
+                                          },
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NotseaddScreen(
+                                                        text3:
+                                                            '${snapshot.data!.docs[index]['id'].toString()}',
+                                                        text1:
+                                                            '${snapshot.data!.docs[index]['title'].toString()}',
+                                                        text2:
+                                                            '${snapshot.data!.docs[index]['notes'].toString()}',
+                                                      )),
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.edit,
+                                            color:
+                                                Color.fromARGB(255, 34, 92, 20),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                               Divider(
@@ -150,7 +165,7 @@ class _HomePageBarState extends State<HomePageBar> {
                                   child: Text(
                                     '${snapshot.data!.docs[index]['notes'].toString()}',
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         color: Colors.black54,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -170,7 +185,11 @@ class _HomePageBarState extends State<HomePageBar> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const NotseaddScreen()),
+            MaterialPageRoute(
+                builder: (context) => const NotseaddScreen(
+                      text1: '',
+                      text2: '',
+                    )),
           );
           // CustomDilog.showAppalert(context,
           //     title: 'Enter Notes', button: Icons.add);
