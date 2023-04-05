@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:juiesapk/controller/auth_store.dart';
+import 'package:juiesapk/signup.dart';
 
 class NotseaddScreen extends StatefulWidget {
   final String? text1;
@@ -15,20 +16,23 @@ class NotseaddScreen extends StatefulWidget {
   State<NotseaddScreen> createState() => _NotseaddScreenState();
 }
 
-AuthStore authStore = AuthStore();
-
 class _NotseaddScreenState extends State<NotseaddScreen> {
   late TextEditingController titlecontroler;
   late TextEditingController notecontoler;
 
-  final fireStore =
-      FirebaseFirestore.instance.collection('Wlsjsc5uteKleKyPqW6D');
+  late var fireStore;
+
+  String? uid;
+  String? userId;
 
   @override
   void initState() {
+    super.initState();
     titlecontroler = TextEditingController(text: widget.text1);
     notecontoler = TextEditingController(text: widget.text2);
-    super.initState();
+    uid = authStore.docRef;
+    var fire = FirebaseFirestore.instance;
+    fireStore = fire.collection(uid!);
   }
 
   @override
@@ -145,17 +149,12 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                       } else {
                         String id =
                             DateTime.now().millisecondsSinceEpoch.toString();
-                        fireStore
-                            .doc(id)
-                            .set({
-                              'title': titlecontroler.text.toString(),
-                              'notes': notecontoler.text.toString(),
-                              'id': id,
-                            })
-                            .then((value) {})
-                            .onError((error, stackTrace) {
-                              print(error.toString());
-                            });
+                        fireStore.doc(id).set({
+                          'title': titlecontroler.text.toString(),
+                          'notes': notecontoler.text.toString(),
+                          'id': id,
+                        }).then((value) {});
+
                         titlecontroler.clear();
                         notecontoler.clear();
                         Navigator.of(context).pop();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:juiesapk/home.dart';
+import 'package:juiesapk/splash_screen.dart';
 
 import 'controller/auth_store.dart';
 
@@ -24,7 +25,7 @@ class _SignupPageState extends State<SignupPage> {
     void _onSignUpSuccess() {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomePageBar()),
+        MaterialPageRoute(builder: (context) => SplashScreen()),
       );
     }
 

@@ -11,6 +11,8 @@ abstract class _AuthStore with Store {
 
   @observable
   User? user;
+
+  @observable
   String? docRef;
 
   @action
@@ -21,20 +23,21 @@ abstract class _AuthStore with Store {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       user = userCredential.user!;
+      String uid = userCredential.user!.uid;
 
-      final CollectionReference usersRef =
-          FirebaseFirestore.instance.collection('users');
+      // final CollectionReference usersRef =
+      //     FirebaseFirestore.instance.collection(uid);
 
       // Generate a new document ID for the user
-      final docRef = usersRef.doc();
+      // final Ref = usersRef.doc();
 
-      // Create a new user document with the provided data
-      await docRef.set({
-        'email': email,
-      });
+      // // Create a new user document with the provided data
+      // await Ref.set({
+      //   'email': email,
+      // });
 
-      print('User created with ID: ${docRef.id}');
-
+      // print('User created with ID: ${Ref.id}');
+      docRef = uid;
       onSignUpSuccess(); // Call the callback function
 
       return true;
@@ -51,6 +54,25 @@ abstract class _AuthStore with Store {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user!;
+
+      String uid = userCredential.user!.uid;
+
+      // final CollectionReference usersRef =
+      //     FirebaseFirestore.instance.collection(uid);
+
+      // final CollectionReference usersRef =
+      //     FirebaseFirestore.instance.collection('users');
+
+      // // Generate a new document ID for the user
+      // final Ref = usersRef.doc();
+
+      // // Create a new user document with the provided data
+      // await Ref.set({
+      //   'email': email,
+      // });
+
+      docRef = uid;
+      print('User created with ID: ${uid}');
       onSignInSuccess();
       return true;
     } on FirebaseAuthException catch (e) {

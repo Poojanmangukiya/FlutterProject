@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/noteadd.dart';
+import 'package:juiesapk/signup.dart';
 import 'package:juiesapk/splash_screen.dart';
 
 class HomePageBar extends StatefulWidget {
@@ -13,16 +15,28 @@ class HomePageBar extends StatefulWidget {
   State<HomePageBar> createState() => _HomePageBarState();
 }
 
-AuthStore authStore = AuthStore();
-
 class _HomePageBarState extends State<HomePageBar> {
+  late var fireStore;
+  String? uid;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user!.uid;
+
+    uid = authStore.docRef;
+    print('cheak : ${uid}');
+    var fire = FirebaseFirestore.instance;
+    fireStore = fire.collection(uid!);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final fireStore = FirebaseFirestore.instance
-        .collection('Wlsjsc5uteKleKyPqW6D')
-        .snapshots();
-    final ref = FirebaseFirestore.instance.collection('Wlsjsc5uteKleKyPqW6D');
+
+    final fireStore = FirebaseFirestore.instance.collection(uid!).snapshots();
+    final ref = FirebaseFirestore.instance.collection(uid!);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.brown,

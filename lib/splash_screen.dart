@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:juiesapk/home.dart';
+import 'package:juiesapk/homesplash.dart';
 import 'package:juiesapk/welcome.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePageBar()),
+          MaterialPageRoute(builder: (context) => const Homesplash()),
         );
       });
     } else {

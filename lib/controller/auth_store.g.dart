@@ -24,6 +24,21 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  late final _$docRefAtom = Atom(name: '_AuthStore.docRef', context: context);
+
+  @override
+  String? get docRef {
+    _$docRefAtom.reportRead();
+    return super.docRef;
+  }
+
+  @override
+  set docRef(String? value) {
+    _$docRefAtom.reportWrite(value, super.docRef, () {
+      super.docRef = value;
+    });
+  }
+
   late final _$signUpWithEmailAndPasswordAsyncAction =
       AsyncAction('_AuthStore.signUpWithEmailAndPassword', context: context);
 
@@ -55,7 +70,8 @@ mixin _$AuthStore on _AuthStore, Store {
   @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+docRef: ${docRef}
     ''';
   }
 }
