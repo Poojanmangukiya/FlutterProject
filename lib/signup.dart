@@ -34,71 +34,97 @@ class _SignupPageState extends State<SignupPage> {
       body: Container(
         height: size.height,
         width: size.width,
-        color: Colors.orange,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/16399264_v640-peipei-16-modernbg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            height: size.height * 0.28,
-            width: size.width * 0.8,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(161, 233, 98, 20),
-
-              //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
-            ),
-            child: Column(children: [
-              TextField(
-                controller: email,
-                decoration: InputDecoration(
-                    fillColor: Color.fromARGB(141, 232, 229, 207),
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                    hintText: 'Enter Email '),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Please Signup here',
+                style: TextStyle(
+                    color: Color.fromARGB(255, 155, 68, 146),
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Alkatra'),
               ),
               SizedBox(
-                height: size.height * 0.01,
+                height: 30,
               ),
-              TextField(
-                controller: password,
-                decoration: InputDecoration(
-                    fillColor: Color.fromARGB(141, 232, 229, 207),
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                    hintText: 'Enter Password '),
-              ),
-              SizedBox(
-                height: size.height * 0.02,
-              ),
-              Observer(
-                builder: (context) => ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Color.fromARGB(255, 90, 63, 54)),
-                  ),
-                  onPressed: () async {
-                    bool success = await authStore.signUpWithEmailAndPassword(
-                      email.text,
-                      password.text,
-                      _onSignUpSuccess,
-                    );
-                    if (!success) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Failed to sign up.'),
-                        ),
-                      );
-                    }
+              Container(
+                padding: EdgeInsets.all(10),
+                height: size.height * 0.28,
+                width: size.width * 0.8,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color.fromARGB(174, 188, 86, 178),
 
-                    //authStore.signUpWithEmailAndPassword( email.text, password.text);
-                  },
-                  child: Text('Sign up'),
+                  //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
                 ),
+                child: Column(children: [
+                  TextField(
+                    controller: email,
+                    decoration: InputDecoration(
+                        fillColor: Color.fromARGB(141, 232, 229, 207),
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                        hintText: 'Enter Email '),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  TextField(
+                    controller: password,
+                    decoration: InputDecoration(
+                        fillColor: Color.fromARGB(141, 232, 229, 207),
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                        hintText: 'Enter Password '),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Observer(
+                    builder: (context) => ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 105, 46, 99)),
+                      ),
+                      onPressed: () async {
+                        bool success =
+                            await authStore.signUpWithEmailAndPassword(
+                          email.text,
+                          password.text,
+                          _onSignUpSuccess,
+                        );
+                        if (!success) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to sign up.'),
+                            ),
+                          );
+                        }
+
+                        //authStore.signUpWithEmailAndPassword( email.text, password.text);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 45, right: 45),
+                        child: Text('Sign up'),
+                      ),
+                    ),
+                  ),
+                ]),
               ),
-            ]),
+            ],
           ),
         ),
       ),

@@ -1,10 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/login.dart';
 import 'package:juiesapk/signup.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WelComePage extends StatefulWidget {
   const WelComePage({Key? key}) : super(key: key);
@@ -22,7 +18,13 @@ class _WelComePageState extends State<WelComePage> {
       body: Container(
         height: size.height,
         width: size.width,
-        color: Colors.orange,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/16399264_v640-peipei-16-modernbg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Container(
             padding: EdgeInsets.all(10),
@@ -30,7 +32,7 @@ class _WelComePageState extends State<WelComePage> {
             width: size.width * 0.8,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(192, 230, 225, 213)
+                color: Color.fromARGB(193, 206, 151, 200)
 
                 //boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey)]
                 ),
@@ -40,6 +42,7 @@ class _WelComePageState extends State<WelComePage> {
                 'Welcome To \n The Note App',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontFamily: "Alkatra",
                   fontSize: 35,
                   fontWeight: FontWeight.w600,
                   color: Color.fromARGB(223, 14, 14, 13),
@@ -51,7 +54,7 @@ class _WelComePageState extends State<WelComePage> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 90, 63, 54)),
+                          Color.fromARGB(255, 155, 68, 146)),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -65,7 +68,7 @@ class _WelComePageState extends State<WelComePage> {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(255, 90, 63, 54)),
+                          Color.fromARGB(255, 155, 68, 146)),
                     ),
                     onPressed: () {
                       Navigator.push(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:juiesapk/home.dart';
-import 'package:juiesapk/homesplash.dart';
+
 import 'package:juiesapk/welcome.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Homesplash()),
+          MaterialPageRoute(builder: (context) => const HomePageBar()),
         );
       });
     } else {
@@ -46,7 +46,13 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         height: size.height,
         width: size.width,
-        color: Colors.orange,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/16399264_v640-peipei-16-modernbg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Container(
           child: Column(
             children: [
@@ -61,7 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                     color: Color.fromARGB(255, 27, 26, 26),
                     fontSize: 35,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Alkatara'),
               ),
               SizedBox(
                 height: 10,
@@ -69,11 +76,12 @@ class _SplashScreenState extends State<SplashScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.edit),
+                  Icon(Icons.edit, color: Colors.purple),
                   Text(
                     'Note App',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 62, 44, 38),
+                        fontFamily: 'Alkatara',
+                        color: Color.fromARGB(255, 84, 37, 79),
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),

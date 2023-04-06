@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:get/get.dart';
-import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/signup.dart';
 
 class NotseaddScreen extends StatefulWidget {
@@ -23,14 +20,14 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
   late var fireStore;
 
   String? uid;
-  String? userId;
 
   @override
   void initState() {
     super.initState();
     titlecontroler = TextEditingController(text: widget.text1);
     notecontoler = TextEditingController(text: widget.text2);
-    uid = authStore.docRef;
+    uid = authStore.getuid();
+
     var fire = FirebaseFirestore.instance;
     fireStore = fire.collection(uid!);
   }
@@ -42,7 +39,13 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
       body: Container(
         height: size.height,
         width: size.width,
-        color: Colors.orange,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/16399264_v640-peipei-16-modernbg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,15 +58,17 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                 Text(
                   "Add note",
                   style: TextStyle(
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      color: Colors.purple,
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Alkatra'),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Icon(
                   Icons.edit,
+                  color: Colors.purple,
                   size: 30,
                 ),
               ],
@@ -109,7 +114,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                 TextButton(
                   child: Text(
                     'Cancel',
-                    style: TextStyle(color: Color.fromARGB(255, 71, 50, 42)),
+                    style: TextStyle(color: Color.fromARGB(255, 95, 42, 89)),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -119,7 +124,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                 ElevatedButton(
                   child: Text('OK'),
                   style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 78, 54, 46)),
+                      primary: Color.fromARGB(255, 95, 42, 89)),
                   onPressed: () {
                     if (widget.text1 == '' || widget.text2 == '') {
                       if (titlecontroler.text.isEmpty ||
@@ -160,14 +165,11 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                         Navigator.of(context).pop();
                       }
                     } else {
-                      fireStore
-                          .doc(widget.text3)
-                          .update({
-                            'title': titlecontroler.text.toString(),
-                            'notes': notecontoler.text.toString(),
-                          })
-                          .then((value) {})
-                          .onError((error, stackTrace) {});
+                      fireStore.doc(widget.text3).update({
+                        'title': titlecontroler.text.toString(),
+                        'notes': notecontoler.text.toString(),
+                      }).then((value) {});
+
                       titlecontroler.clear();
                       notecontoler.clear();
                       Navigator.of(context).pop();

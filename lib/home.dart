@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/noteadd.dart';
 import 'package:juiesapk/signup.dart';
 import 'package:juiesapk/splash_screen.dart';
@@ -22,10 +20,8 @@ class _HomePageBarState extends State<HomePageBar> {
   @override
   void initState() {
     super.initState();
-    final user = FirebaseAuth.instance.currentUser;
-    final userId = user!.uid;
 
-    uid = authStore.docRef;
+    uid = authStore.getuid();
     print('cheak : ${uid}');
     var fire = FirebaseFirestore.instance;
     fireStore = fire.collection(uid!);
@@ -39,7 +35,7 @@ class _HomePageBarState extends State<HomePageBar> {
     final ref = FirebaseFirestore.instance.collection(uid!);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.brown,
+        backgroundColor: Color.fromARGB(255, 105, 46, 99),
         title: Text('Notes App'),
         actions: [
           Padding(
@@ -58,9 +54,16 @@ class _HomePageBarState extends State<HomePageBar> {
         ],
       ),
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                'assets/images/16399264_v640-peipei-16-modernbg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         height: size.height,
         width: size.width,
-        color: Colors.orange,
+        //color: Colors.orange,
         child: Container(
           padding: EdgeInsets.all(10),
           child:
@@ -72,15 +75,16 @@ class _HomePageBarState extends State<HomePageBar> {
                 height: size.height * 0.05,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.brown,
+                  color: Color.fromARGB(255, 105, 46, 99),
                 ),
                 child: Center(
                   child: Text(
-                    'Welcome _user name Note App ',
+                    'Welcome To The Note App ',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Alkatara'),
                   ),
                 ),
               ),
@@ -170,7 +174,7 @@ class _HomePageBarState extends State<HomePageBar> {
                                 ),
                               ),
                               Divider(
-                                color: Colors.black,
+                                color: Color.fromARGB(255, 65, 34, 131),
                                 thickness: 2,
                               ),
                               Flexible(
@@ -209,7 +213,7 @@ class _HomePageBarState extends State<HomePageBar> {
           //     title: 'Enter Notes', button: Icons.add);
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.brown,
+        backgroundColor: Color.fromARGB(255, 105, 46, 99),
       ),
     );
   }

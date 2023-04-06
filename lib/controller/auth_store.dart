@@ -9,6 +9,13 @@ class AuthStore = _AuthStore with _$AuthStore;
 abstract class _AuthStore with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  @action
+  String? getuid() {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    return user?.uid;
+  }
+
   @observable
   User? user;
 
@@ -25,18 +32,6 @@ abstract class _AuthStore with Store {
       user = userCredential.user!;
       String uid = userCredential.user!.uid;
 
-      // final CollectionReference usersRef =
-      //     FirebaseFirestore.instance.collection(uid);
-
-      // Generate a new document ID for the user
-      // final Ref = usersRef.doc();
-
-      // // Create a new user document with the provided data
-      // await Ref.set({
-      //   'email': email,
-      // });
-
-      // print('User created with ID: ${Ref.id}');
       docRef = uid;
       onSignUpSuccess(); // Call the callback function
 
@@ -56,20 +51,6 @@ abstract class _AuthStore with Store {
       user = userCredential.user!;
 
       String uid = userCredential.user!.uid;
-
-      // final CollectionReference usersRef =
-      //     FirebaseFirestore.instance.collection(uid);
-
-      // final CollectionReference usersRef =
-      //     FirebaseFirestore.instance.collection('users');
-
-      // // Generate a new document ID for the user
-      // final Ref = usersRef.doc();
-
-      // // Create a new user document with the provided data
-      // await Ref.set({
-      //   'email': email,
-      // });
 
       docRef = uid;
       print('User created with ID: ${uid}');
