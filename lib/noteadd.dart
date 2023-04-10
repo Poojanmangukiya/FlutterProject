@@ -92,7 +92,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                   height: 15,
                 ),
                 TextField(
-                  maxLines: 10,
+                  maxLines: 8,
                   controller: notecontoler,
                   decoration: InputDecoration(
                     filled: true,

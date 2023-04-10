@@ -43,20 +43,20 @@ mixin _$AuthStore on _AuthStore, Store {
       AsyncAction('_AuthStore.signUpWithEmailAndPassword', context: context);
 
   @override
-  Future<bool> signUpWithEmailAndPassword(
-      String email, String password, Function onSignUpSuccess) {
-    return _$signUpWithEmailAndPasswordAsyncAction.run(() =>
-        super.signUpWithEmailAndPassword(email, password, onSignUpSuccess));
+  Future<bool> signUpWithEmailAndPassword(String email, String password,
+      Function onSignUpSuccess, void Function(String?) onerror) {
+    return _$signUpWithEmailAndPasswordAsyncAction.run(() => super
+        .signUpWithEmailAndPassword(email, password, onSignUpSuccess, onerror));
   }
 
   late final _$signInWithEmailAndPasswordAsyncAction =
       AsyncAction('_AuthStore.signInWithEmailAndPassword', context: context);
 
   @override
-  Future<bool> signInWithEmailAndPassword(
-      String email, String password, Function onSignInSuccess) {
-    return _$signInWithEmailAndPasswordAsyncAction.run(() =>
-        super.signInWithEmailAndPassword(email, password, onSignInSuccess));
+  Future<bool> signInWithEmailAndPassword(String email, String password,
+      Function onSignInSuccess, void Function(String?) onerror) {
+    return _$signInWithEmailAndPasswordAsyncAction.run(() => super
+        .signInWithEmailAndPassword(email, password, onSignInSuccess, onerror));
   }
 
   late final _$signOutUserAsyncAction =
@@ -65,6 +65,20 @@ mixin _$AuthStore on _AuthStore, Store {
   @override
   Future<void> signOutUser() {
     return _$signOutUserAsyncAction.run(() => super.signOutUser());
+  }
+
+  late final _$_AuthStoreActionController =
+      ActionController(name: '_AuthStore', context: context);
+
+  @override
+  String? getuid() {
+    final _$actionInfo =
+        _$_AuthStoreActionController.startAction(name: '_AuthStore.getuid');
+    try {
+      return super.getuid();
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

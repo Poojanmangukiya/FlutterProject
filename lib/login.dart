@@ -13,18 +13,25 @@ class LogInPage extends StatefulWidget {
 AuthStore authStore = AuthStore();
 
 class _LogInPageState extends State<LogInPage> {
+  void _onSignInSuccess() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePageBar()),
+    );
+  }
+
+  void _onerror(String? er) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(er ?? ""),
+      ),
+    );
+  }
+
+  final email = TextEditingController();
+  final password = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    void _onSignInSuccess() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageBar()),
-      );
-    }
-
-    final email = TextEditingController();
-    final password = TextEditingController();
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -100,11 +107,18 @@ class _LogInPageState extends State<LogInPage> {
                         email.text,
                         password.text,
                         _onSignInSuccess,
+                        _onerror,
                       );
                       if (!success) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Failed to sign up.'),
+                            content: Text('Failed to Login.'),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('succesfully to Login.'),
                           ),
                         );
                       }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:juiesapk/home.dart';
 import 'package:juiesapk/splash_screen.dart';
 
 import 'controller/auth_store.dart';
@@ -15,20 +14,25 @@ class SignupPage extends StatefulWidget {
 AuthStore authStore = AuthStore();
 
 class _SignupPageState extends State<SignupPage> {
+  final email = TextEditingController();
+  final password = TextEditingController();
+  void _onSignUpSuccess() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SplashScreen()),
+    );
+  }
+
+  void _onerror(String? er) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(er ?? ""),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final email = TextEditingController();
-    final password = TextEditingController();
-    final fullname = TextEditingController();
-    final phoneNo = TextEditingController();
-
-    void _onSignUpSuccess() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SplashScreen()),
-      );
-    }
-
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -105,6 +109,7 @@ class _SignupPageState extends State<SignupPage> {
                           email.text,
                           password.text,
                           _onSignUpSuccess,
+                          _onerror,
                         );
                         if (!success) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -112,9 +117,13 @@ class _SignupPageState extends State<SignupPage> {
                               content: Text('Failed to sign up.'),
                             ),
                           );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('succesfully to Sign up.'),
+                            ),
+                          );
                         }
-
-                        //authStore.signUpWithEmailAndPassword( email.text, password.text);
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 45, right: 45),

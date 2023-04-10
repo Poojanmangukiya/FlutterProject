@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,10 +22,12 @@ abstract class _AuthStore with Store {
 
   @observable
   String? docRef;
+  // @observable
+  // String? er;
 
   @action
-  Future<bool> signUpWithEmailAndPassword(
-      String email, String password, Function onSignUpSuccess) async {
+  Future<bool> signUpWithEmailAndPassword(String email, String password,
+      Function onSignUpSuccess, void Function(String? er) onerror) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -37,14 +40,21 @@ abstract class _AuthStore with Store {
 
       return true;
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      onerror(e.message);
+      return false;
+    } on PlatformException catch (e) {
+      onerror(e.message);
       return false;
     }
   }
 
   @action
   Future<bool> signInWithEmailAndPassword(
-      String email, String password, Function onSignInSuccess) async {
+    String email,
+    String password,
+    Function onSignInSuccess,
+    void Function(String? er) onerror,
+  ) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -53,11 +63,14 @@ abstract class _AuthStore with Store {
       String uid = userCredential.user!.uid;
 
       docRef = uid;
-      print('User created with ID: ${uid}');
+      // print('User created with ID: ${uid}');
       onSignInSuccess();
       return true;
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      onerror(e.message);
+      return false;
+    } on PlatformException catch (e) {
+      onerror(e.message);
       return false;
     }
   }
