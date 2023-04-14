@@ -4,6 +4,8 @@ import 'package:juiesapk/home.dart';
 
 import 'package:juiesapk/welcome.dart';
 
+import 'homenew.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -26,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const HomePageBar()),
+          MaterialPageRoute(builder: (context) => HomePageBar2()),
         );
       });
     } else {

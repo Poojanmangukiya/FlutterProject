@@ -2,6 +2,9 @@ import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 part 'auth_store.g.dart';
 
 class AuthStore = _AuthStore with _$AuthStore;
@@ -78,5 +81,20 @@ abstract class _AuthStore with Store {
   Future<void> signOutUser() async {
     await _auth.signOut();
     user = null;
+  }
+
+  @observable
+  List<dynamic> notelist = [];
+
+  @action
+  Future<void> LoadNote() async {
+    final response = await http.get(Uri.parse(
+        'https://firestore.googleapis.com/v1/projects/flutter-login-app-1a2c3/databases/(default)/documents/SNp9dqGZsKSS33iyl2P8MpjsHlt2/'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      notelist.addAll(data['documents']);
+    } else {
+      throw Exception('Failed to load notelist');
+    }
   }
 }

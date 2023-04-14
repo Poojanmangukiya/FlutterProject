@@ -158,7 +158,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                           'title': titlecontroler.text.toString(),
                           'notes': notecontoler.text.toString(),
                           'id': id,
-                        }).then((value) {});
+                        });
 
                         titlecontroler.clear();
                         notecontoler.clear();
@@ -168,7 +168,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                       fireStore.doc(widget.text3).update({
                         'title': titlecontroler.text.toString(),
                         'notes': notecontoler.text.toString(),
-                      }).then((value) {});
+                      });
 
                       titlecontroler.clear();
                       notecontoler.clear();

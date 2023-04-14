@@ -39,6 +39,22 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  late final _$notelistAtom =
+      Atom(name: '_AuthStore.notelist', context: context);
+
+  @override
+  List<dynamic> get notelist {
+    _$notelistAtom.reportRead();
+    return super.notelist;
+  }
+
+  @override
+  set notelist(List<dynamic> value) {
+    _$notelistAtom.reportWrite(value, super.notelist, () {
+      super.notelist = value;
+    });
+  }
+
   late final _$signUpWithEmailAndPasswordAsyncAction =
       AsyncAction('_AuthStore.signUpWithEmailAndPassword', context: context);
 
@@ -67,6 +83,14 @@ mixin _$AuthStore on _AuthStore, Store {
     return _$signOutUserAsyncAction.run(() => super.signOutUser());
   }
 
+  late final _$LoadNoteAsyncAction =
+      AsyncAction('_AuthStore.LoadNote', context: context);
+
+  @override
+  Future<void> LoadNote() {
+    return _$LoadNoteAsyncAction.run(() => super.LoadNote());
+  }
+
   late final _$_AuthStoreActionController =
       ActionController(name: '_AuthStore', context: context);
 
@@ -85,7 +109,8 @@ mixin _$AuthStore on _AuthStore, Store {
   String toString() {
     return '''
 user: ${user},
-docRef: ${docRef}
+docRef: ${docRef},
+notelist: ${notelist}
     ''';
   }
 }
