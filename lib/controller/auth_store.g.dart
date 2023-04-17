@@ -43,13 +43,13 @@ mixin _$AuthStore on _AuthStore, Store {
       Atom(name: '_AuthStore.notelist', context: context);
 
   @override
-  List<dynamic> get notelist {
+  ObservableList<dynamic> get notelist {
     _$notelistAtom.reportRead();
     return super.notelist;
   }
 
   @override
-  set notelist(List<dynamic> value) {
+  set notelist(ObservableList<dynamic> value) {
     _$notelistAtom.reportWrite(value, super.notelist, () {
       super.notelist = value;
     });

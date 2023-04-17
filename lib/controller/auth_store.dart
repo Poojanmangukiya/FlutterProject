@@ -1,4 +1,6 @@
 import 'package:flutter/services.dart';
+import 'package:juiesapk/modelclass/documentinfo.dart';
+import 'package:juiesapk/modelclass/documents.dart';
 import 'package:mobx/mobx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -11,6 +13,7 @@ class AuthStore = _AuthStore with _$AuthStore;
 
 abstract class _AuthStore with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DocumentInfo documentinfo = DocumentInfo();
 
   @action
   String? getuid() {
@@ -24,9 +27,9 @@ abstract class _AuthStore with Store {
 
   @observable
   String? docRef;
-  // @observable
-  // String? er;
 
+  @observable
+  bool circuler = false;
   @action
   Future<bool> signUpWithEmailAndPassword(String email, String password,
       Function onSignUpSuccess, void Function(String? er) onerror) async {
@@ -84,15 +87,18 @@ abstract class _AuthStore with Store {
   }
 
   @observable
-  List<dynamic> notelist = [];
+  ObservableList<dynamic> notelist = ObservableList<dynamic>();
 
   @action
   Future<void> LoadNote() async {
+    String uis = _auth.currentUser!.uid;
     final response = await http.get(Uri.parse(
-        'https://firestore.googleapis.com/v1/projects/flutter-login-app-1a2c3/databases/(default)/documents/SNp9dqGZsKSS33iyl2P8MpjsHlt2/'));
+        'https://firestore.googleapis.com/v1/projects/flutter-login-app-1a2c3/databases/(default)/documents/$uis/'));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      notelist.addAll(data['documents']);
+      //notelist.addAll(data['documents']);
+      documentinfo = DocumentInfo.fromJson(data);
+      circuler = false;
     } else {
       throw Exception('Failed to load notelist');
     }
