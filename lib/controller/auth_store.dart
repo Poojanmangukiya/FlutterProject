@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:juiesapk/modelclass/documentinfo.dart';
 import 'package:juiesapk/modelclass/documents.dart';
@@ -91,7 +92,9 @@ abstract class _AuthStore with Store {
 
   @action
   Future<void> LoadNote() async {
+    circuler = true;
     String uis = _auth.currentUser!.uid;
+    print('jjfhfhf $uis');
     final response = await http.get(Uri.parse(
         'https://firestore.googleapis.com/v1/projects/flutter-login-app-1a2c3/databases/(default)/documents/$uis/'));
     if (response.statusCode == 200) {
@@ -99,6 +102,21 @@ abstract class _AuthStore with Store {
       //notelist.addAll(data['documents']);
       documentinfo = DocumentInfo.fromJson(data);
       circuler = false;
+    } else {
+      throw Exception('Failed to load notelist');
+    }
+  }
+
+  @action
+  Future<void> Deltenote(String nid) async {
+    String uis = _auth.currentUser!.uid;
+    final response = await http.delete(Uri.parse(
+        'https://firestore.googleapis.com/v1/projects/flutter-login-app-1a2c3/databases/(default)/documents/$uis/$nid/'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      //notelist.addAll(data['documents']);
+      documentinfo = DocumentInfo.fromJson(data);
+      LoadNote();
     } else {
       throw Exception('Failed to load notelist');
     }

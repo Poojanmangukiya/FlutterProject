@@ -39,6 +39,22 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  late final _$circulerAtom =
+      Atom(name: '_AuthStore.circuler', context: context);
+
+  @override
+  bool get circuler {
+    _$circulerAtom.reportRead();
+    return super.circuler;
+  }
+
+  @override
+  set circuler(bool value) {
+    _$circulerAtom.reportWrite(value, super.circuler, () {
+      super.circuler = value;
+    });
+  }
+
   late final _$notelistAtom =
       Atom(name: '_AuthStore.notelist', context: context);
 
@@ -110,6 +126,7 @@ mixin _$AuthStore on _AuthStore, Store {
     return '''
 user: ${user},
 docRef: ${docRef},
+circuler: ${circuler},
 notelist: ${notelist}
     ''';
   }

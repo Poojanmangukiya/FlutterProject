@@ -26,7 +26,7 @@ class _HomePageBarState extends State<HomePageBar2> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 105, 46, 99),
-        title: Text('Notes App'),
+        title: Text('Notes App without snapshot'),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -45,7 +45,7 @@ class _HomePageBarState extends State<HomePageBar2> {
       ),
       body: Observer(
         builder: (context) {
-          if (authStore.circuler == false) {
+          if (authStore.circuler == true) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -60,7 +60,15 @@ class _HomePageBarState extends State<HomePageBar2> {
                           .stringValue),
                       Text(authStore.documentinfo.documents![index].fields.title
                           .stringValue),
-                      InkWell(onTap: () {}, child: Icon(Icons.delete)),
+                      InkWell(
+                          onTap: () {
+                            String nid = authStore.documentinfo
+                                .documents![index].fields.id!.stringValue;
+
+                            authStore.Deltenote(nid);
+                          },
+                          child: Icon(Icons.delete)),
+                      InkWell(onTap: () {}, child: Icon(Icons.edit)),
                     ],
                   ),
                 );

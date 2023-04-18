@@ -9,9 +9,13 @@ part of 'field.dart';
 Field _$FieldFromJson(Map<String, dynamic> json) => Field(
       title: Title.fromJson(json['title'] as Map<String, dynamic>),
       notes: Note.fromJson(json['notes'] as Map<String, dynamic>),
+      id: json['id'] == null
+          ? null
+          : Idi.fromJson(json['id'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$FieldToJson(Field instance) => <String, dynamic>{
       'title': instance.title,
       'notes': instance.notes,
+      'id': instance.id,
     };
