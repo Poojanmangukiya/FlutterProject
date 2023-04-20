@@ -45,7 +45,7 @@ class _HomePageBarState extends State<HomePageBar2> {
       ),
       body: Observer(
         builder: (context) {
-          if (authStore.circuler == true) {
+          if (!authStore.circuler) {
             return Center(
               child: CircularProgressIndicator(),
             );

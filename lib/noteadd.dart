@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:juiesapk/signup.dart';
 
 class NotseaddScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
   @override
   void initState() {
     super.initState();
+    authStore.subscription();
     titlecontroler = TextEditingController(text: widget.text1);
     notecontoler = TextEditingController(text: widget.text2);
     uid = authStore.getuid();
@@ -121,60 +123,80 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                   },
                 ),
                 SizedBox(width: 8.0),
-                ElevatedButton(
-                  child: Text('OK'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 95, 42, 89)),
-                  onPressed: () {
-                    if (widget.text1 == '' || widget.text2 == '') {
-                      if (titlecontroler.text.isEmpty ||
-                          notecontoler.text.isEmpty) {
-                        // Show an error message if either title or note is empty
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Error"),
-                              content: Text("Title and note cannot be empty."),
-                              actions: [
-                                TextButton(
-                                  child: Text(
-                                    "OK",
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 48, 29, 23)),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
+                Observer(
+                  builder: (context) => ElevatedButton(
+                    child: Text('OK'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 95, 42, 89)),
+                    onPressed: () {
+                      if (authStore.isDeviceConnected == true) {
+                        print('dkdsjk');
+                        if (widget.text1 == '' || widget.text2 == '') {
+                          if (titlecontroler.text.isEmpty ||
+                              notecontoler.text.isEmpty) {
+                            // Show an error message if either title or note is empty
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content:
+                                      Text("Title and note cannot be empty."),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                        "OK",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 48, 29, 23)),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
-                          },
-                        );
+                          } else {
+                            String id = DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString();
+                            fireStore.doc(id).set({
+                              'title': titlecontroler.text.toString(),
+                              'notes': notecontoler.text.toString(),
+                              'id': id,
+                            });
+
+                            titlecontroler.clear();
+                            notecontoler.clear();
+                            Navigator.of(context).pop();
+                          }
+                        } else {
+                          fireStore.doc(widget.text3).update({
+                            'title': titlecontroler.text.toString(),
+                            'notes': notecontoler.text.toString(),
+                          });
+
+                          titlecontroler.clear();
+                          notecontoler.clear();
+                          Navigator.of(context).pop();
+                        }
                       } else {
-                        String id =
-                            DateTime.now().millisecondsSinceEpoch.toString();
-                        fireStore.doc(id).set({
-                          'title': titlecontroler.text.toString(),
-                          'notes': notecontoler.text.toString(),
-                          'id': id,
-                        });
-
-                        titlecontroler.clear();
-                        notecontoler.clear();
-                        Navigator.of(context).pop();
+                        print('dkdkkdkjdk');
+                        AlertDialog(
+                          content: Text('no Internet'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('ok')),
+                          ],
+                        );
                       }
-                    } else {
-                      fireStore.doc(widget.text3).update({
-                        'title': titlecontroler.text.toString(),
-                        'notes': notecontoler.text.toString(),
-                      });
-
-                      titlecontroler.clear();
-                      notecontoler.clear();
-                      Navigator.of(context).pop();
-                    }
-                  },
+                    },
+                  ),
                 ),
               ],
             ),

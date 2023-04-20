@@ -71,6 +71,22 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  late final _$isDeviceConnectedAtom =
+      Atom(name: '_AuthStore.isDeviceConnected', context: context);
+
+  @override
+  bool get isDeviceConnected {
+    _$isDeviceConnectedAtom.reportRead();
+    return super.isDeviceConnected;
+  }
+
+  @override
+  set isDeviceConnected(bool value) {
+    _$isDeviceConnectedAtom.reportWrite(value, super.isDeviceConnected, () {
+      super.isDeviceConnected = value;
+    });
+  }
+
   late final _$signUpWithEmailAndPasswordAsyncAction =
       AsyncAction('_AuthStore.signUpWithEmailAndPassword', context: context);
 
@@ -107,6 +123,14 @@ mixin _$AuthStore on _AuthStore, Store {
     return _$LoadNoteAsyncAction.run(() => super.LoadNote());
   }
 
+  late final _$DeltenoteAsyncAction =
+      AsyncAction('_AuthStore.Deltenote', context: context);
+
+  @override
+  Future<void> Deltenote(String nid) {
+    return _$DeltenoteAsyncAction.run(() => super.Deltenote(nid));
+  }
+
   late final _$_AuthStoreActionController =
       ActionController(name: '_AuthStore', context: context);
 
@@ -122,12 +146,24 @@ mixin _$AuthStore on _AuthStore, Store {
   }
 
   @override
+  void subscription() {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.subscription');
+    try {
+      return super.subscription();
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 user: ${user},
 docRef: ${docRef},
 circuler: ${circuler},
-notelist: ${notelist}
+notelist: ${notelist},
+isDeviceConnected: ${isDeviceConnected}
     ''';
   }
 }

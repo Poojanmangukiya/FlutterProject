@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/services.dart';
 import 'package:juiesapk/modelclass/documentinfo.dart';
-import 'package:juiesapk/modelclass/documents.dart';
 import 'package:mobx/mobx.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -120,5 +121,16 @@ abstract class _AuthStore with Store {
     } else {
       throw Exception('Failed to load notelist');
     }
+  }
+
+  @observable
+  bool isDeviceConnected = true;
+  @action
+  void subscription() {
+    Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+    });
   }
 }
