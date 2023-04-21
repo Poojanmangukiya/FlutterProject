@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
+import 'package:juiesapk/controller/boxes.dart';
+import 'package:juiesapk/controller/hivestore.dart';
 import 'package:juiesapk/signup.dart';
 
 class NotseaddScreen extends StatefulWidget {
@@ -129,8 +132,8 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                     style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 95, 42, 89)),
                     onPressed: () {
-                      if (authStore.isDeviceConnected == true) {
-                        print('dkdsjk');
+                      if (authStore.isDeviceConnected) {
+                        print('connnected');
                         if (widget.text1 == '' || widget.text2 == '') {
                           if (titlecontroler.text.isEmpty ||
                               notecontoler.text.isEmpty) {
@@ -183,17 +186,17 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                           Navigator.of(context).pop();
                         }
                       } else {
-                        print('dkdkkdkjdk');
-                        AlertDialog(
-                          content: Text('no Internet'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('ok')),
-                          ],
+                        print('not connected');
+                        final data = NotesModel(
+                          titles: titlecontroler.text.toString(),
+                          note: notecontoler.text.toString(),
                         );
+                        final box = Boxes.getData();
+                        box.add(data);
+                        data.save();
+                        titlecontroler.clear();
+                        notecontoler.clear();
+                        Navigator.pop(context);
                       }
                     },
                   ),
