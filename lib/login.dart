@@ -62,7 +62,7 @@ class _LogInPageState extends State<LogInPage> {
               ),
               Container(
                 padding: EdgeInsets.all(10),
-                height: size.height * 0.28,
+                height: size.height * 0.31,
                 width: size.width * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),

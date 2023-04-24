@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive/hive.dart';
@@ -17,9 +18,18 @@ class HomePageBar2 extends StatefulWidget {
 
 class _HomePageBarState extends State<HomePageBar2> {
   AuthStore authStore = AuthStore();
+  late CollectionReference<Map<String, dynamic>> fireStore;
+
+  String? uid;
+  final box = Hive.box<NotesModel>('notes');
   @override
   void initState() {
     super.initState();
+    uid = authStore.getuid();
+
+    var fire = FirebaseFirestore.instance;
+    fireStore = fire.collection(uid!);
+    authStore.subscription();
     authStore.LoadNote();
     authStore.circuler == false;
   }
@@ -91,7 +101,7 @@ class _HomePageBarState extends State<HomePageBar2> {
             child: ValueListenableBuilder<Box<NotesModel>>(
               valueListenable: Boxes.getData().listenable(),
               builder: (context, box, _) {
-                var data = box.values.toList().cast<NotesModel>();
+                List<NotesModel> data = box.values.toList();
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.separated(
@@ -168,6 +178,36 @@ class _HomePageBarState extends State<HomePageBar2> {
                 );
               },
             ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (authStore.isDeviceConnected) {
+                box.values.forEach((note) {
+                  String id = DateTime.now().millisecondsSinceEpoch.toString();
+                  fireStore.doc(id).set({
+                    'title': note.titles.toString(),
+                    'notes': note.note.toString(),
+                    'id': id,
+                  });
+
+                  print('Title: ${note.titles}');
+                  print('Note: ${note.note}');
+                  print('-----------------');
+                });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Internet connected'),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Internet is not connected'),
+                  ),
+                );
+              }
+            },
+            child: Text('Sync Now'),
           ),
         ],
       ),

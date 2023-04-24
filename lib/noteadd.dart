@@ -21,7 +21,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
   late TextEditingController titlecontroler;
   late TextEditingController notecontoler;
 
-  late var fireStore;
+  late CollectionReference<Map<String, dynamic>> fireStore;
 
   String? uid;
 
