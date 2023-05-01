@@ -183,7 +183,9 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
 
                           titlecontroler.clear();
                           notecontoler.clear();
+
                           Navigator.of(context).pop();
+                          authStore.LoadNote();
                         }
                       } else {
                         print('not connected');

@@ -15,7 +15,9 @@ class AuthStore = _AuthStore with _$AuthStore;
 
 abstract class _AuthStore with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  DocumentInfo documentinfo = DocumentInfo();
+
+  @observable
+  late DocumentInfo documentinfo;
 
   @action
   String? getuid() {
@@ -102,6 +104,7 @@ abstract class _AuthStore with Store {
       final data = jsonDecode(response.body);
       //notelist.addAll(data['documents']);
       documentinfo = DocumentInfo.fromJson(data);
+
       circuler = false;
     } else {
       throw Exception('Failed to load notelist');

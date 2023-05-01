@@ -148,7 +148,21 @@ class _HomePageBarState extends State<HomePageBar2> {
                                               color: Colors.red,
                                             )),
                                         InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NotseaddScreen(
+                                                          text3:
+                                                              '${authStore.documentinfo.documents![index].fields.id!.stringValue}',
+                                                          text1:
+                                                              '${authStore.documentinfo.documents![index].fields.title.stringValue}',
+                                                          text2:
+                                                              '${authStore.documentinfo.documents![index].fields.notes.stringValue}',
+                                                        )),
+                                              );
+                                            },
                                             child: Icon(
                                               Icons.edit,
                                               color: Color.fromARGB(

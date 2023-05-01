@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:juiesapk/homenew.dart';
 
 import 'controller/auth_store.dart';
 import 'home.dart';
@@ -16,7 +17,7 @@ class _LogInPageState extends State<LogInPage> {
   void _onSignInSuccess() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomePageBar()),
+      MaterialPageRoute(builder: (context) => HomePageBar2()),
     );
   }
 
