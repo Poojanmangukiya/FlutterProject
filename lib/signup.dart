@@ -4,14 +4,14 @@ import 'package:juiesapk/splash_screen.dart';
 
 import 'controller/auth_store.dart';
 
+AuthStore authStore = AuthStore();
+
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
-
-AuthStore authStore = AuthStore();
 
 class _SignupPageState extends State<SignupPage> {
   final email = TextEditingController();

@@ -5,7 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:juiesapk/controller/auth_store.dart';
 import 'package:juiesapk/controller/boxes.dart';
 import 'package:juiesapk/controller/hivestore.dart';
+import 'package:juiesapk/login.dart';
 import 'package:juiesapk/noteadd.dart';
+import 'package:juiesapk/signup.dart';
 import 'package:juiesapk/splash_screen.dart';
 
 class HomePageBar2 extends StatefulWidget {
@@ -16,7 +18,6 @@ class HomePageBar2 extends StatefulWidget {
 }
 
 class _HomePageBarState extends State<HomePageBar2> {
-  AuthStore authStore = AuthStore();
   late CollectionReference<Map<String, dynamic>> fireStore;
 
   String? uid;
@@ -262,6 +263,18 @@ class _HomePageBarState extends State<HomePageBar2> {
                                           )),
                                       InkWell(
                                           onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NotseaddScreen(
+                                                        text3: '${data[index]}',
+                                                        text1:
+                                                            '${data[index].titles}',
+                                                        text2:
+                                                            '${data[index].note}',
+                                                      )),
+                                            );
                                             // CoustomDialog.showAppalert(
                                             //   context,
                                             //   title: 'Edit Note',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:juiesapk/homenew.dart';
+import 'package:juiesapk/signup.dart';
 
 import 'controller/auth_store.dart';
 import 'home.dart';
@@ -10,8 +11,6 @@ class LogInPage extends StatefulWidget {
   @override
   State<LogInPage> createState() => _LogInPageState();
 }
-
-AuthStore authStore = AuthStore();
 
 class _LogInPageState extends State<LogInPage> {
   void _onSignInSuccess() {

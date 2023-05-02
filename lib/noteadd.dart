@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get/get.dart';
 import 'package:juiesapk/controller/boxes.dart';
 import 'package:juiesapk/controller/hivestore.dart';
 import 'package:juiesapk/signup.dart';
@@ -131,7 +130,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                     child: Text('OK'),
                     style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 95, 42, 89)),
-                    onPressed: () {
+                    onPressed: () async {
                       if (authStore.isDeviceConnected) {
                         print('connnected');
                         if (widget.text1 == '' || widget.text2 == '') {
@@ -165,7 +164,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                             String id = DateTime.now()
                                 .millisecondsSinceEpoch
                                 .toString();
-                            fireStore.doc(id).set({
+                            await fireStore.doc(id).set({
                               'title': titlecontroler.text.toString(),
                               'notes': notecontoler.text.toString(),
                               'id': id,
@@ -174,6 +173,7 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                             titlecontroler.clear();
                             notecontoler.clear();
                             Navigator.of(context).pop();
+                            authStore.LoadNote();
                           }
                         } else {
                           fireStore.doc(widget.text3).update({
@@ -189,16 +189,19 @@ class _NotseaddScreenState extends State<NotseaddScreen> {
                         }
                       } else {
                         print('not connected');
-                        final data = NotesModel(
-                          titles: titlecontroler.text.toString(),
-                          note: notecontoler.text.toString(),
-                        );
-                        final box = Boxes.getData();
-                        box.add(data);
-                        data.save();
-                        titlecontroler.clear();
-                        notecontoler.clear();
-                        Navigator.pop(context);
+
+                        if (widget.text1 == '' || widget.text2 == '') {
+                          final data = NotesModel(
+                            titles: titlecontroler.text.toString(),
+                            note: notecontoler.text.toString(),
+                          );
+                          final box = Boxes.getData();
+                          box.add(data);
+                          data.save();
+                          titlecontroler.clear();
+                          notecontoler.clear();
+                          Navigator.pop(context);
+                        } else {}
                       }
                     },
                   ),
